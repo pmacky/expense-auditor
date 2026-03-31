@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpenseAI — Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #111118;
+            --border: #1e1e2e;
+            --accent: #6c63ff;
+            --accent2: #ff6584;
+            --text: #f0f0ff;
+            --muted: #6b6b8a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,101,132,0.1) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .wrapper {
+            display: flex;
+            width: 900px;
+            min-height: 560px;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Left panel */
+        .panel-left {
+            flex: 1;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-left::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(108,99,255,0.2);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+        }
+
+        .panel-left::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(108,99,255,0.1);
+            border-radius: 50%;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .panel-left h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .panel-left p {
+            color: rgba(255,255,255,0.5);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        .feature-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Right panel */
+        .panel-right {
+            flex: 1;
+            background: var(--surface);
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-right h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .panel-right .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .flash {
+            background: rgba(255,101,132,0.1);
+            border: 1px solid rgba(255,101,132,0.3);
+            color: #ff6584;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
+        }
+
+        input::placeholder { color: var(--muted); }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108,99,255,0.4);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .footer-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            body             { grid-template-columns: 1fr; }
+            .left            { display: none; }
+            .right           { padding: 40px 28px; }
+            .form-headline   { font-size: 32px; }
+        }
+
+        @media (max-width: 400px) {
+            .right           { padding: 32px 20px; }
+            .btn-submit      { padding: 12px 24px; font-size: 11px; }
+            .submit-row      { flex-direction: column; align-items: flex-start; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="panel-left">
+        <div class="brand">
+            <div class="brand-icon">💼</div>
+            <span class="brand-name">ExpenseAI</span>
+        </div>
+        <div>
+            <h2>Smart Expense Auditing</h2>
+            <p>AI-powered compliance checking that reads your policy and audits receipts automatically.</p>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-dot"></div>
+                    4-Agent AI Pipeline
+                </div>
+                <div class="feature">
+                    <div class="feature-dot"></div>
+                    Real-time Fraud Detection
+                </div>
+                <div class="feature">
+                    <div class="feature-dot"></div>
+                    Policy Cross-Reference Engine
+                </div>
+                <div class="feature">
+                    <div class="feature-dot"></div>
+                    Instant Audit Results
+                </div>
+            </div>
+        </div>
+        <p style="font-size:12px; color:rgba(255,255,255,0.2)">© 2026 ExpenseAI</p>
+    </div>
+
+    <div class="panel-right">
+        <h3>Welcome back</h3>
+        <p class="subtitle">Sign in to your account to continue</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash">⚠️ {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="field">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="you@company.com" required />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="••••••••" required />
+            </div>
+            <button type="submit">Sign In →</button>
+        </form>
+
+        <div class="footer-link">
+            Don't have an account? <a href="/register">Create one</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

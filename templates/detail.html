@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Detail | ExpenseAI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        nav {
+            background: #1a1a2e;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 { color: white; font-size: 20px; }
+
+        nav a {
+            color: #a0aec0;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 16px;
+        }
+
+        nav a:hover { color: white; }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            font-size: 16px;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .receipt-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+        }
+
+        .data-row:last-child { border-bottom: none; }
+
+        .data-row .key {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .data-row .value {
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .Approved { background: #d1fae5; color: #065f46; }
+        .Flagged  { background: #fef3c7; color: #92400e; }
+        .Rejected { background: #fee2e2; color: #991b1b; }
+
+        .risk-bar {
+            background: #e5e7eb;
+            border-radius: 999px;
+            height: 12px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .risk-fill {
+            height: 100%;
+            border-radius: 999px;
+        }
+
+        .risk-low    { background: #34d399; }
+        .risk-medium { background: #fbbf24; }
+        .risk-high   { background: #f87171; }
+
+        .policy-box {
+            background: #f8f9fa;
+            border-left: 4px solid #4f46e5;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        .flag-item {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #9a3412;
+            margin-bottom: 8px;
+        }
+
+        .override-card {
+            margin-top: 24px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        select:focus, textarea:focus { border-color: #4f46e5; }
+        textarea { height: 80px; resize: none; }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover { background: #4338ca; }
+
+        .override-banner {
+            background: #ede9fe;
+            border: 1px solid #c4b5fd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #4c1d95;
+        }
+
+        .override-banner strong { display: block; margin-bottom: 4px; }
+        @media (max-width: 768px) {
+            .grid            { grid-template-columns: 1fr; }
+            .container       { padding: 20px 16px; }
+            nav              { padding: 0 16px; }
+            .card            { padding: 20px; }
+            .data-row        { font-size: 13px; }
+            .policy-box      { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h1>💼 ExpenseAI</h1>
+    <div>
+        <a href="/dashboard">← Back to Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="grid">
+
+        <div>
+
+            <div class="card" style="margin-bottom:24px">
+                <h2>🧾 Receipt</h2>
+                {% if claim.file_path %}
+                    {% set ext = claim.file_path.split('.')[-1].lower() %}
+                    {% if ext in ['jpg', 'jpeg', 'png'] %}
+                        <img src="/uploads/{{ claim.file_path.split('/')[-1] }}"
+                             class="receipt-img" />
+                    {% else %}
+                        <div style="text-align:center; padding:40px; color:#666;">
+                            <div style="font-size:48px">📄</div>
+                            <p>PDF Receipt</p>
+                            <a href="/uploads/{{ claim.file_path.split('/')[-1] }}"
+                               target="_blank"
+                               style="color:#4f46e5">View PDF →</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="card">
+                <h2>📊 Extracted Data</h2>
+
+                <div class="data-row">
+                    <span class="key">Employee</span>
+                    <span class="value">{{ claim.employee_name }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="key">Merchant</span>
+                    <span class="value">{{ claim.merchant }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="key">Amount</span>
+                    <span class="value">{{ claim.amount }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="key">Date</span>
+                    <span class="value">{{ claim.date }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="key">Category</span>
+                    <span class="value">{{ claim.category }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="key">Business Purpose</span>
+                    <span class="value">{{ claim.business_purpose }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="key">Submitted</span>
+                    <span class="value">{{ claim.submitted_at.strftime('%d %b %Y, %H:%M') }}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="card" style="margin-bottom:24px">
+                <h2>🤖 AI Audit Result</h2>
+
+                <div class="data-row">
+                    <span class="key">Status</span>
+                    <span class="badge {{ claim.status }}">{{ claim.status }}</span>
+                </div>
+
+                <div class="data-row">
+                    <span class="key">Confidence</span>
+                    <span class="value">{{ claim.reason }}</span>
+                </div>
+
+                <div style="margin-top:16px">
+                    <div style="display:flex; justify-content:space-between; font-size:13px; color:#666; margin-bottom:6px">
+                        <span>Fraud Risk Score</span>
+                        <strong style="color:#1a1a2e">{{ claim.risk_score }}/100</strong>
+                    </div>
+                    <div class="risk-bar">
+                        <div class="risk-fill
+                            {% if claim.risk_score >= 70 %}risk-high
+                            {% elif claim.risk_score >= 40 %}risk-medium
+                            {% else %}risk-low{% endif %}"
+                             style="width:{{ claim.risk_score }}%">
+                        </div>
+                    </div>
+                </div>
+
+                {% if claim.policy_snippet %}
+                <div style="margin-top:20px">
+                    <div style="font-size:13px; color:#666; margin-bottom:6px">
+                        📋 Policy Rule Used
+                    </div>
+                    <div class="policy-box">
+                        {{ claim.policy_snippet }}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="card override-card">
+                <h2>✏️ Finance Override</h2>
+
+                {% if claim.override_status %}
+                <div class="override-banner">
+                    <strong>⚡ Overridden by {{ claim.overridden_by }}</strong>
+                    New Status:
+                    <span class="badge {{ claim.override_status }}">
+                        {{ claim.override_status }}
+                    </span>
+                    <p style="margin-top:8px">{{ claim.override_comment }}</p>
+                </div>
+                {% endif %}
+
+                <form method="POST" action="/override/{{ claim.id }}">
+                    <label style="font-size:13px; font-weight:bold; color:#333; display:block; margin-bottom:6px">
+                        Override Decision
+                    </label>
+                    <select name="status">
+                        <option value="Approved">✅ Approve</option>
+                        <option value="Flagged">⚠️ Flag for Review</option>
+                        <option value="Rejected">❌ Reject</option>
+                    </select>
+
+                    <label style="font-size:13px; font-weight:bold; color:#333; display:block; margin-bottom:6px">
+                        Comment (required)
+                    </label>
+                    <textarea name="comment"
+                              placeholder="Explain why you are overriding the AI decision..."
+                              required></textarea>
+
+                    <button type="submit" class="btn btn-primary">
+                        Save Override
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

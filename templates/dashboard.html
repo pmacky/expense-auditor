@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpenseAI — Finance Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #111118;
+            --surface2: #16161f;
+            --border: #1e1e2e;
+            --accent: #6c63ff;
+            --success: #00d4aa;
+            --warning: #ffb347;
+            --danger: #ff6584;
+            --text: #f0f0ff;
+            --muted: #6b6b8a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .brand-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .nav-badge {
+            padding: 4px 10px;
+            background: rgba(108,99,255,0.15);
+            border: 1px solid rgba(108,99,255,0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .page-header p { color: var(--muted); font-size: 15px; }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+        }
+
+        .stat.total::before  { background: var(--accent); }
+        .stat.approved::before { background: var(--success); }
+        .stat.flagged::before  { background: var(--warning); }
+        .stat.rejected::before { background: var(--danger); }
+
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat.total    .stat-number { color: var(--accent); }
+        .stat.approved .stat-number { color: var(--success); }
+        .stat.flagged  .stat-number { color: var(--warning); }
+        .stat.rejected .stat-number { color: var(--danger); }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* Table card */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-header p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        th {
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.01);
+        }
+
+        td {
+            padding: 16px 20px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge.Approved { background: rgba(0,212,170,0.15); color: var(--success); }
+        .badge.Flagged  { background: rgba(255,179,71,0.15);  color: var(--warning); }
+        .badge.Rejected { background: rgba(255,101,132,0.15); color: var(--danger); }
+
+        .risk-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .risk-high   { background: rgba(255,101,132,0.15); color: var(--danger); }
+        .risk-medium { background: rgba(255,179,71,0.15);  color: var(--warning); }
+        .risk-low    { background: rgba(0,212,170,0.15);   color: var(--success); }
+
+        .btn-view {
+            padding: 7px 16px;
+            background: rgba(108,99,255,0.15);
+            border: 1px solid rgba(108,99,255,0.3);
+            border-radius: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-view:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 80px;
+            color: var(--muted);
+        }
+
+        .empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+        @media (max-width: 768px) {
+            .stats           { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .container       { padding: 20px 16px; }
+            .page-header h1  { font-size: 24px; }
+            nav              { padding: 0 16px; }
+            .stat            { padding: 16px; }
+            .stat-number     { font-size: 28px; }
+            .card-header     { padding: 16px; }
+            .card-header h2  { font-size: 15px; }
+        }
+
+        @media (max-width: 500px) {
+            /* Stack stats to 2 columns */
+            .stats           { grid-template-columns: repeat(2, 1fr); }
+
+            /* Make table scrollable */
+            .card            { overflow-x: auto; }
+            table            { min-width: 600px; }
+            th, td           { padding: 10px 12px; font-size: 12px; }
+
+            /* Hide less important columns on very small screens */
+            th:nth-child(4),
+            td:nth-child(4)  { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-brand">
+        <div class="brand-icon">💼</div>
+        <span class="brand-name">ExpenseAI</span>
+        <span class="nav-badge">Finance</span>
+    </div>
+    <a href="/logout" class="btn-logout">Logout</a>
+</nav>
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>Finance Dashboard</h1>
+        <p>All claims sorted by fraud risk — highest risk first.</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat total">
+            <div class="stat-number">{{ claims|length }}</div>
+            <div class="stat-label">Total Claims</div>
+        </div>
+        <div class="stat approved">
+            <div class="stat-number">
+                {{ claims|selectattr('status','eq','Approved')|list|length }}
+            </div>
+            <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat flagged">
+            <div class="stat-number">
+                {{ claims|selectattr('status','eq','Flagged')|list|length }}
+            </div>
+            <div class="stat-label">Flagged</div>
+        </div>
+        <div class="stat rejected">
+            <div class="stat-number">
+                {{ claims|selectattr('status','eq','Rejected')|list|length }}
+            </div>
+            <div class="stat-label">Rejected</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h2>📋 All Claims</h2>
+                <p>Sorted by risk level — review high risk items first</p>
+            </div>
+        </div>
+
+        {% if claims %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Employee</th>
+                    <th>Merchant</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>AI Status</th>
+                    <th>Risk Score</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for claim in claims %}
+                <tr>
+                    <td style="color:var(--muted)">{{ claim.id }}</td>
+                    <td style="font-weight:500">{{ claim.employee_name }}</td>
+                    <td>{{ claim.merchant or '—' }}</td>
+                    <td style="font-weight:500">{{ claim.amount or '—' }}</td>
+                    <td style="color:var(--muted)">{{ claim.category or '—' }}</td>
+                    <td>
+                        <span class="badge {{ claim.final_status }}">
+                            {{ claim.final_status }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if claim.risk_score >= 70 %}
+                            <span class="risk-pill risk-high">🔴 {{ claim.risk_score }}/100</span>
+                        {% elif claim.risk_score >= 40 %}
+                            <span class="risk-pill risk-medium">🟡 {{ claim.risk_score }}/100</span>
+                        {% else %}
+                            <span class="risk-pill risk-low">🟢 {{ claim.risk_score }}/100</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/claim/{{ claim.id }}" class="btn-view">Review →</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty">
+            <div class="empty-icon">📭</div>
+            <p>No claims submitted yet.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+</body>
+</html>
