@@ -1,206 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExpenseAI — Register</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0a0a0f;
-            --surface: #111118;
-            --border: #1e1e2e;
-            --accent: #6c63ff;
-            --text: #f0f0ff;
-            --muted: #6b6b8a;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExpenseAI — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0b0e11;
+  --bg2:    #12161c;
+  --bg3:    #1e2329;
+  --border: #2b3139;
+  --yellow: #f0b90b;
+  --yellow2:#f8d33a;
+  --green:  #0ecb81;
+  --red:    #f6465d;
+  --text:   #eaecef;
+  --muted:  #848e9c;
+  --mono:   'JetBrains Mono', monospace;
+  --sans:   'Space Grotesk', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,185,11,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,185,11,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes gridMove {
+  0%   { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
 
-        body::before {
-            content: '';
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
-            top: -150px;
-            left: -150px;
-            border-radius: 50%;
-        }
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb1 { width:400px;height:400px;background:rgba(240,185,11,0.05);top:-100px;right:-100px; }
+.orb2 { width:300px;height:300px;background:rgba(14,203,129,0.04);bottom:-50px;left:-50px; }
 
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 50px;
-            width: 100%;
-            max-width: 440px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-        }
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 44px 48px;
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.6s ease both;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+}
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 32px;
-        }
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
 
-        .brand-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--accent);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
 
-        .brand-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text);
-        }
+.brand-logo {
+  width: 34px; height: 34px;
+  background: var(--yellow);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
 
-        h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
+.brand-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
 
-        .subtitle {
-            color: var(--muted);
-            font-size: 14px;
-            margin-bottom: 32px;
-        }
+.brand-name span { color: var(--yellow); }
 
-        .flash {
-            background: rgba(255,101,132,0.1);
-            border: 1px solid rgba(255,101,132,0.3);
-            color: #ff6584;
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
+.form-header { margin-bottom: 28px; }
+.form-header h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 4px; }
+.form-header p  { font-size: 13px; color: var(--muted); }
 
-        .field { margin-bottom: 18px; }
+.flash {
+  background: rgba(246,70,93,0.08);
+  border: 1px solid rgba(246,70,93,0.25);
+  border-left: 3px solid var(--red);
+  padding: 11px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--red);
+  margin-bottom: 18px;
+}
 
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
+.field { margin-bottom: 14px; }
 
-        input {
-            width: 100%;
-            padding: 13px 16px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border 0.2s, box-shadow 0.2s;
-        }
+.field label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
 
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
-        }
+.field input {
+  width: 100%;
+  padding: 12px 15px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
 
-        input::placeholder { color: var(--muted); }
+.field input:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(240,185,11,0.08);
+}
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+.field input::placeholder { color: var(--border); }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(108,99,255,0.4);
-        }
+.btn-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--yellow);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--sans);
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
 
-        .footer-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--muted);
-        }
+.btn-submit:hover {
+  background: var(--yellow2);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(240,185,11,0.25);
+}
 
-        .footer-link a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-        }
-    </style>
+.footer-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.footer-link a {
+  color: var(--yellow);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer-link a:hover { color: var(--yellow2); }
+
+.terms {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--border);
+  text-align: center;
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+}
+</style>
 </head>
 <body>
+<div class="bg-grid"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
 <div class="card">
-    <div class="brand">
-        <div class="brand-icon">💼</div>
-        <span class="brand-name">ExpenseAI</span>
+  <div class="brand">
+    <div class="brand-logo">💼</div>
+    <span class="brand-name">Expense<span>AI</span></span>
+  </div>
+
+  <div class="form-header">
+    <h2>Create Account</h2>
+    <p>Join your team on ExpenseAI</p>
+  </div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="flash">⚠ {{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="John Smith" required />
     </div>
-
-    <h3>Create account</h3>
-    <p class="subtitle">Join your team on ExpenseAI</p>
-
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="flash">⚠️ {{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-    <form method="POST">
-        <div class="field">
-            <label>Full Name</label>
-            <input type="text" name="name" placeholder="John Smith" required />
-        </div>
-        <div class="field">
-            <label>Email Address</label>
-            <input type="email" name="email" placeholder="you@company.com" required />
-        </div>
-        <div class="field">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="••••••••" required />
-        </div>
-        <button type="submit">Create Account →</button>
-    </form>
-
-    <div class="footer-link">
-        Already have an account? <a href="/login">Sign in</a>
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" name="email" placeholder="you@company.com" required />
     </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="••••••••••••" required />
+    </div>
+    <button type="submit" class="btn-submit">Create Account →</button>
+  </form>
+
+  <div class="footer-link">
+    Already have an account? <a href="/login">Sign in</a>
+  </div>
+
+  <div class="terms">EMPLOYEE ACCOUNTS ONLY · FINANCE ACCESS IS PRE-ASSIGNED</div>
 </div>
 </body>
 </html>
