@@ -105,12 +105,17 @@ def logout():
 # EMPLOYEE ROUTES
 # ─────────────────────────────────────────
 
-@app.route('/')
+@app.route('/dashboard')
 @login_required
-def home():
-    claims = Claim.query.filter_by(employee_id=current_user.id)\
-                        .order_by(Claim.submitted_at.desc()).all()
-    return render_template('employee.html', claims=claims)
+def dashboard():
+    if current_user.role != 'finance':
+        return redirect(url_for('home'))
+    claims = Claim.query.order_by(Claim.risk_score.desc()).all()
+    from flask import make_response
+    response = make_response(render_template('dashboard.html', claims=claims))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    return response
 
 
 @app.route('/submit', methods=['POST'])
@@ -218,10 +223,10 @@ def submit_claim():
     db.session.add(claim)
     db.session.commit()
 
-    icon = '✅' if result['status'] == 'Approved' else '⚠️' if result['status'] == 'Flagged' else '❌'
+    icon = '[APPROVED]' if new_status == 'Approved' else '[FLAGGED]' if new_status == 'Flagged' else '[REJECTED]'
     notification = Notification(
-        user_id = current_user.id,
-        message = f"{icon} Your claim at {result['merchant']} for {result['amount']} was {result['status']} by AI. {result['reason']}"
+        user_id = claim.employee_id,
+        message = f"{icon} Finance overrode your claim at {claim.merchant or 'Unknown'} ({claim.amount or '?'}) to {new_status}. Reason: {comment}"
     )
     db.session.add(notification)
     db.session.commit()
@@ -232,15 +237,18 @@ def submit_claim():
 # FINANCE ROUTES
 # ─────────────────────────────────────────
 
-@app.route('/dashboard')
+@app.route('/')
 @login_required
-def dashboard():
-    if current_user.role != 'finance':
-        return redirect(url_for('home'))
-
-    claims = Claim.query.order_by(Claim.risk_score.desc()).all()
-    return render_template('dashboard.html', claims=claims)
-
+def home():
+    # Force fresh data from database
+    db.session.expire_all()
+    claims = Claim.query.filter_by(employee_id=current_user.id)\
+                        .order_by(Claim.submitted_at.desc()).all()
+    from flask import make_response
+    response = make_response(render_template('employee.html', claims=claims))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    return response
 
 @app.route('/claim/<int:claim_id>')
 @login_required
@@ -252,47 +260,60 @@ def claim_detail(claim_id):
 @app.route('/override/<int:claim_id>', methods=['POST'])
 @login_required
 def override_claim(claim_id):
-    if current_user.role != 'finance':
+    # Re-fetch current user from DB to avoid stale session
+    fresh_user = db.session.get(User, current_user.id)
+
+    if fresh_user.role != 'finance':
         return jsonify({'error': 'Unauthorized'}), 403
 
-    claim                  = Claim.query.get_or_404(claim_id)
+    db.session.expire_all()
+    claim = db.session.get(Claim, claim_id)
+    if not claim:
+        return jsonify({'error': 'Claim not found'}), 404
+
     new_status             = request.form['status']
     comment                = request.form['comment']
     claim.override_status  = new_status
     claim.override_comment = comment
-    claim.overridden_by    = current_user.name
-    db.session.commit()
+    claim.overridden_by    = fresh_user.name
 
-    icon = '✅' if new_status == 'Approved' else '⚠️' if new_status == 'Flagged' else '❌'
+    if new_status == 'Approved':
+        status_icon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ecb81" stroke-width="2.5" stroke-linecap="round" style="vertical-align:middle;margin-right:6px"><polyline points="20 6 9 17 4 12"/></svg>'
+    elif new_status == 'Flagged':
+        status_icon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f7a600" stroke-width="2.5" stroke-linecap="round" style="vertical-align:middle;margin-right:6px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+    else:
+        status_icon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f6465d" stroke-width="2.5" stroke-linecap="round" style="vertical-align:middle;margin-right:6px"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+
     notification = Notification(
         user_id = claim.employee_id,
-        message = f"{icon} Your claim at {claim.merchant or 'Unknown'} for {claim.amount or '?'} was {new_status} by Finance. Note: {comment}"
+        message = f"{status_icon} Finance overrode your claim at {claim.merchant or 'Unknown'} ({claim.amount or '?'}) to <strong>{new_status}</strong>. Note: {comment}"
     )
     db.session.add(notification)
     db.session.commit()
 
+    print(f"✅ Override saved: claim {claim_id} → {new_status}")
     return redirect(url_for('claim_detail', claim_id=claim_id))
-
 
 @app.route('/api/claims')
 @login_required
 def get_claims():
-    claims = Claim.query.all()
+    db.session.expire_all()
+    claims = Claim.query.order_by(Claim.risk_score.desc()).all()
     return jsonify([{
         'id':       c.id,
         'employee': c.employee_name,
+        'merchant': c.merchant or '—',
+        'amount':   c.amount or '—',
+        'category': c.category or '—',
         'status':   c.final_status,
-        'amount':   c.amount,
-        'category': c.category,
         'risk':     c.risk_score
     } for c in claims])
-
 
 from flask import send_from_directory
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+    return send_from_directory(os.path.abspath(UPLOAD_FOLDER), filename)
 
 # ─────────────────────────────────────────
 # NOTIFICATION ROUTES

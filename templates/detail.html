@@ -1,346 +1,666 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Detail | ExpenseAI</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim Detail | ExpenseAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0b0e11;
+  --bg2:    #12161c;
+  --bg3:    #1e2329;
+  --border: #2b3139;
+  --yellow: #f0b90b;
+  --yellow2:#f8d33a;
+  --green:  #0ecb81;
+  --red:    #f6465d;
+  --orange: #f7a600;
+  --indigo: #6366f1;
+  --text:   #eaecef;
+  --muted:  #848e9c;
+  --mono:   'JetBrains Mono', monospace;
+  --sans:   'Space Grotesk', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
-        }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
 
-        nav {
-            background: #1a1a2e;
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,185,11,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,185,11,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-        nav h1 { color: white; font-size: 20px; }
+/* NAV */
+nav {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-        nav a {
-            color: #a0aec0;
-            text-decoration: none;
-            font-size: 14px;
-            margin-left: 16px;
-        }
+.nav-left { display: flex; align-items: center; gap: 12px; }
 
-        nav a:hover { color: white; }
+.brand-logo {
+  width: 30px; height: 30px;
+  background: var(--yellow);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  animation: logoPulse 3s ease-in-out infinite;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+@keyframes logoPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(240,185,11,0.4); }
+  50%      { box-shadow: 0 0 0 8px rgba(240,185,11,0); }
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
+.brand-name { font-size:17px; font-weight:700; }
+.brand-name span { color: var(--yellow); }
 
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-        }
+.nav-divider { width:1px; height:20px; background:var(--border); margin:0 4px; }
 
-        .card h2 {
-            font-size: 16px;
-            color: #1a1a2e;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f0f0f0;
-        }
+.nav-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  background: rgba(240,185,11,0.08);
+  border: 1px solid rgba(240,185,11,0.15);
+  border-radius: 4px;
+  text-transform: uppercase;
+}
 
-        .receipt-img {
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
+.nav-right { display: flex; align-items: center; gap: 10px; }
 
-        .data-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #f5f5f5;
-            font-size: 14px;
-        }
+.btn-back {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+  font-family: var(--sans);
+  transition: all 0.2s;
+}
+.btn-back:hover { border-color: var(--yellow); color: var(--yellow); }
 
-        .data-row:last-child { border-bottom: none; }
+.btn-logout {
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+  font-family: var(--sans);
+  transition: all 0.2s;
+}
+.btn-logout:hover { border-color: var(--red); color: var(--red); }
 
-        .data-row .key {
-            color: #666;
-            font-size: 13px;
-        }
+/* LAYOUT */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  position: relative;
+  z-index: 1;
+}
 
-        .data-row .value {
-            font-weight: bold;
-            color: #1a1a2e;
-        }
+.page-header {
+  margin-bottom: 24px;
+  animation: fadeInDown 0.5s ease both;
+}
 
-        .badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
+@keyframes fadeInDown {
+  from { opacity:0; transform:translateY(-12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 
-        .Approved { background: #d1fae5; color: #065f46; }
-        .Flagged  { background: #fef3c7; color: #92400e; }
-        .Rejected { background: #fee2e2; color: #991b1b; }
+.page-header h1 { font-size:22px; font-weight:700; letter-spacing:-0.5px; }
+.page-header p  { font-size:13px; color:var(--muted); margin-top:4px; }
 
-        .risk-bar {
-            background: #e5e7eb;
-            border-radius: 999px;
-            height: 12px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
 
-        .risk-fill {
-            height: 100%;
-            border-radius: 999px;
-        }
+/* CARDS */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.5s ease both;
+}
 
-        .risk-low    { background: #34d399; }
-        .risk-medium { background: #fbbf24; }
-        .risk-high   { background: #f87171; }
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
 
-        .policy-box {
-            background: #f8f9fa;
-            border-left: 4px solid #4f46e5;
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-            font-size: 13px;
-            color: #333;
-            line-height: 1.6;
-            margin-top: 8px;
-        }
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 
-        .flag-item {
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
-            color: #9a3412;
-            margin-bottom: 8px;
-        }
+.card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        .override-card {
-            margin-top: 24px;
-        }
+.card-header-icon {
+  width: 28px; height: 28px;
+  background: rgba(240,185,11,0.1);
+  border: 1px solid rgba(240,185,11,0.2);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
 
-        select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            outline: none;
-        }
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--mono);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
 
-        select:focus, textarea:focus { border-color: #4f46e5; }
-        textarea { height: 80px; resize: none; }
+.card-body { padding: 20px; }
 
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+/* RECEIPT */
+.receipt-img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  display: block;
+}
 
-        .btn-primary {
-            background: #4f46e5;
-            color: white;
-            width: 100%;
-        }
+.pdf-placeholder {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--bg3);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+}
 
-        .btn-primary:hover { background: #4338ca; }
+.pdf-icon {
+  width: 52px; height: 52px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+}
 
-        .override-banner {
-            background: #ede9fe;
-            border: 1px solid #c4b5fd;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-            font-size: 14px;
-            color: #4c1d95;
-        }
+.pdf-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
 
-        .override-banner strong { display: block; margin-bottom: 4px; }
-        @media (max-width: 768px) {
-            .grid            { grid-template-columns: 1fr; }
-            .container       { padding: 20px 16px; }
-            nav              { padding: 0 16px; }
-            .card            { padding: 20px; }
-            .data-row        { font-size: 13px; }
-            .policy-box      { font-size: 12px; }
-        }
-    </style>
+.pdf-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(240,185,11,0.08);
+  border: 1px solid rgba(240,185,11,0.2);
+  border-radius: 5px;
+  color: var(--yellow);
+  text-decoration: none;
+  font-size: 12px;
+  font-family: var(--mono);
+  transition: all 0.2s;
+}
+.pdf-link:hover { background: var(--yellow); color: var(--bg); border-color: var(--yellow); }
+
+/* DATA ROWS */
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.data-row:last-child { border-bottom: none; }
+
+.data-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.data-value {
+  font-weight: 500;
+  color: var(--text);
+  text-align: right;
+  max-width: 60%;
+}
+
+/* BADGES */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+
+.badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-approved { background: rgba(14,203,129,0.12); color: var(--green); }
+.badge-flagged  { background: rgba(247,166,0,0.12);  color: var(--orange); }
+.badge-rejected { background: rgba(246,70,93,0.12);  color: var(--red); }
+
+/* RISK BAR */
+.risk-section { margin-top: 16px; }
+
+.risk-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.risk-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.risk-fill { height: 100%; border-radius: 999px; }
+.risk-fill.risk-low    { background: var(--green); }
+.risk-fill.risk-medium { background: var(--orange); }
+.risk-fill.risk-high   { background: var(--red); }
+
+/* POLICY BOX */
+.policy-section { margin-top: 18px; }
+
+.policy-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.policy-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--indigo);
+  padding: 14px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* OVERRIDE */
+.override-banner {
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.override-banner-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--indigo);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.override-banner-title::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--indigo);
+  border-radius: 50%;
+}
+
+.override-banner p { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
+
+/* FORM */
+.field { margin-bottom: 14px; }
+
+.field label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23848e9c' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(240,185,11,0.08);
+}
+
+.field textarea { height: 80px; resize: none; }
+
+.btn-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--yellow);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+
+.btn-submit:hover {
+  background: var(--yellow2);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(240,185,11,0.25);
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  nav   { padding: 0 16px; }
+  .container { padding: 20px 14px; }
+  .card-body { padding: 16px; }
+}
+</style>
 </head>
 <body>
 
 <nav>
-    <h1>💼 ExpenseAI</h1>
-    <div>
-        <a href="/dashboard">← Back to Dashboard</a>
-        <a href="/logout">Logout</a>
+  <div class="nav-left">
+    <div class="brand-logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0e11" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+        <line x1="12" y1="12" x2="12" y2="16"/>
+        <line x1="10" y1="14" x2="14" y2="14"/>
+      </svg>
     </div>
+    <span class="brand-name">Expense<span>AI</span></span>
+    <div class="nav-divider"></div>
+    <span class="nav-tag">Claim Detail</span>
+  </div>
+  <div class="nav-right">
+    <a href="/dashboard" class="btn-back">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Dashboard
+    </a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
 </nav>
 
 <div class="container">
 
-    <div class="grid">
+  <div class="page-header">
+    <h1>Claim #{{ claim.id }}</h1>
+    <p>Submitted by {{ claim.employee_name }} on {{ claim.submitted_at.strftime('%d %b %Y') }}</p>
+  </div>
 
-        <div>
+  <div class="grid">
 
-            <div class="card" style="margin-bottom:24px">
-                <h2>🧾 Receipt</h2>
-                {% if claim.file_path %}
-                    {% set ext = claim.file_path.split('.')[-1].lower() %}
-                    {% if ext in ['jpg', 'jpeg', 'png'] %}
-                        <img src="/uploads/{{ claim.file_path.split('/')[-1] }}"
-                             class="receipt-img" />
-                    {% else %}
-                        <div style="text-align:center; padding:40px; color:#666;">
-                            <div style="font-size:48px">📄</div>
-                            <p>PDF Receipt</p>
-                            <a href="/uploads/{{ claim.file_path.split('/')[-1] }}"
-                               target="_blank"
-                               style="color:#4f46e5">View PDF →</a>
-                        </div>
-                    {% endif %}
-                {% endif %}
-            </div>
+    <!-- LEFT COLUMN -->
+    <div>
 
-            <div class="card">
-                <h2>📊 Extracted Data</h2>
-
-                <div class="data-row">
-                    <span class="key">Employee</span>
-                    <span class="value">{{ claim.employee_name }}</span>
-                </div>
-                <div class="data-row">
-                    <span class="key">Merchant</span>
-                    <span class="value">{{ claim.merchant }}</span>
-                </div>
-                <div class="data-row">
-                    <span class="key">Amount</span>
-                    <span class="value">{{ claim.amount }}</span>
-                </div>
-                <div class="data-row">
-                    <span class="key">Date</span>
-                    <span class="value">{{ claim.date }}</span>
-                </div>
-                <div class="data-row">
-                    <span class="key">Category</span>
-                    <span class="value">{{ claim.category }}</span>
-                </div>
-                <div class="data-row">
-                    <span class="key">Business Purpose</span>
-                    <span class="value">{{ claim.business_purpose }}</span>
-                </div>
-                <div class="data-row">
-                    <span class="key">Submitted</span>
-                    <span class="value">{{ claim.submitted_at.strftime('%d %b %Y, %H:%M') }}</span>
-                </div>
-            </div>
-
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <span class="card-title">Receipt</span>
         </div>
-
-        <div>
-
-            <div class="card" style="margin-bottom:24px">
-                <h2>🤖 AI Audit Result</h2>
-
-                <div class="data-row">
-                    <span class="key">Status</span>
-                    <span class="badge {{ claim.status }}">{{ claim.status }}</span>
+        <div class="card-body">
+          {% if claim.file_path %}
+            {% set ext = claim.file_path.split('.')[-1].lower() %}
+            {% if ext in ['jpg', 'jpeg', 'png'] %}
+              <img src="/uploads/{{ claim.file_path.replace('\\', '/').split('/')[-1] }}" class="receipt-img" onerror="this.style.display='none'" />img src="/uploads/{{ claim.file_path.split('/')[-1] }}" class="receipt-img" />
+            {% else %}
+              <div class="pdf-placeholder">
+                <div class="pdf-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
                 </div>
-
-                <div class="data-row">
-                    <span class="key">Confidence</span>
-                    <span class="value">{{ claim.reason }}</span>
-                </div>
-
-                <div style="margin-top:16px">
-                    <div style="display:flex; justify-content:space-between; font-size:13px; color:#666; margin-bottom:6px">
-                        <span>Fraud Risk Score</span>
-                        <strong style="color:#1a1a2e">{{ claim.risk_score }}/100</strong>
-                    </div>
-                    <div class="risk-bar">
-                        <div class="risk-fill
-                            {% if claim.risk_score >= 70 %}risk-high
-                            {% elif claim.risk_score >= 40 %}risk-medium
-                            {% else %}risk-low{% endif %}"
-                             style="width:{{ claim.risk_score }}%">
-                        </div>
-                    </div>
-                </div>
-
-                {% if claim.policy_snippet %}
-                <div style="margin-top:20px">
-                    <div style="font-size:13px; color:#666; margin-bottom:6px">
-                        📋 Policy Rule Used
-                    </div>
-                    <div class="policy-box">
-                        {{ claim.policy_snippet }}
-                    </div>
-                </div>
-                {% endif %}
-
-            </div>
-
-            <div class="card override-card">
-                <h2>✏️ Finance Override</h2>
-
-                {% if claim.override_status %}
-                <div class="override-banner">
-                    <strong>⚡ Overridden by {{ claim.overridden_by }}</strong>
-                    New Status:
-                    <span class="badge {{ claim.override_status }}">
-                        {{ claim.override_status }}
-                    </span>
-                    <p style="margin-top:8px">{{ claim.override_comment }}</p>
-                </div>
-                {% endif %}
-
-                <form method="POST" action="/override/{{ claim.id }}">
-                    <label style="font-size:13px; font-weight:bold; color:#333; display:block; margin-bottom:6px">
-                        Override Decision
-                    </label>
-                    <select name="status">
-                        <option value="Approved">✅ Approve</option>
-                        <option value="Flagged">⚠️ Flag for Review</option>
-                        <option value="Rejected">❌ Reject</option>
-                    </select>
-
-                    <label style="font-size:13px; font-weight:bold; color:#333; display:block; margin-bottom:6px">
-                        Comment (required)
-                    </label>
-                    <textarea name="comment"
-                              placeholder="Explain why you are overriding the AI decision..."
-                              required></textarea>
-
-                    <button type="submit" class="btn btn-primary">
-                        Save Override
-                    </button>
-                </form>
-            </div>
-
+                <div class="pdf-label">PDF Receipt</div>
+                <a href="/uploads/{{ claim.file_path.replace('\\', '/').split('/')[-1] }}" target="_blank" class="pdf-link">
+                  View PDF
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+              </div>
+            {% endif %}
+          {% endif %}
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <span class="card-title">Extracted Data</span>
+        </div>
+        <div class="card-body">
+          <div class="data-row">
+            <span class="data-key">Employee</span>
+            <span class="data-value">{{ claim.employee_name }}</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Merchant</span>
+            <span class="data-value">{{ claim.merchant }}</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Amount</span>
+            <span class="data-value" style="color:var(--yellow); font-family:var(--mono)">{{ claim.amount }}</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Date</span>
+            <span class="data-value" style="font-family:var(--mono); font-size:12px">{{ claim.date }}</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Category</span>
+            <span class="data-value">{{ claim.category }}</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Business Purpose</span>
+            <span class="data-value">{{ claim.business_purpose }}</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Submitted</span>
+            <span class="data-value" style="font-family:var(--mono); font-size:11px">{{ claim.submitted_at.strftime('%d %b %Y, %H:%M') }}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <span class="card-title">AI Audit Result</span>
+        </div>
+        <div class="card-body">
+
+          <div class="data-row">
+            <span class="data-key">AI Decision</span>
+            {% if claim.status == 'Approved' %}<span class="badge badge-approved">Approved</span>
+            {% elif claim.status == 'Flagged' %}<span class="badge badge-flagged">Flagged</span>
+            {% else %}<span class="badge badge-rejected">Rejected</span>{% endif %}
+        </div>
+        <div class="data-row">
+            <span class="data-key">Final Status</span>
+            {% if claim.final_status == 'Approved' %}<span class="badge badge-approved">Approved</span>
+            {% elif claim.final_status == 'Flagged' %}<span class="badge badge-flagged">Flagged</span>
+            {% else %}<span class="badge badge-rejected">Rejected</span>{% endif %}
+        </div>
+
+          <div class="data-row">
+            <span class="data-key">Reason</span>
+            <span class="data-value" style="font-size:12px; color:var(--muted)">{{ claim.reason }}</span>
+          </div>
+
+          <div class="risk-section">
+            <div class="risk-label-row">
+              <span>Fraud Risk Score</span>
+              <strong style="color:var(--text)">{{ claim.risk_score }}/100</strong>
+            </div>
+            <div class="risk-bar">
+              <div class="risk-fill
+                {% if claim.risk_score >= 70 %}risk-high
+                {% elif claim.risk_score >= 40 %}risk-medium
+                {% else %}risk-low{% endif %}"
+                style="width:{{ claim.risk_score }}%">
+              </div>
+            </div>
+          </div>
+
+          {% if claim.policy_snippet %}
+          <div class="policy-section">
+            <div class="policy-label">Policy Rule Applied</div>
+            <div class="policy-box">{{ claim.policy_snippet }}</div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </div>
+          <span class="card-title">Finance Override</span>
+        </div>
+        <div class="card-body">
+
+          {% if claim.override_status %}
+          <div class="override-banner">
+            <div class="override-banner-title">Overridden by {{ claim.overridden_by }}</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-family:var(--mono); font-size:11px; color:var(--muted)">New Status</span>
+              {% if claim.override_status == 'Approved' %}<span class="badge badge-approved">Approved</span>
+              {% elif claim.override_status == 'Flagged' %}<span class="badge badge-flagged">Flagged</span>
+              {% else %}<span class="badge badge-rejected">Rejected</span>{% endif %}
+            </div>
+            <p>{{ claim.override_comment }}</p>
+          </div>
+          {% endif %}
+
+          <form method="POST" action="/override/{{ claim.id }}">
+            <div class="field">
+              <label>Override Decision</label>
+              <select name="status">
+                <option value="Approved">Approve</option>
+                <option value="Flagged">Flag for Review</option>
+                <option value="Rejected">Reject</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Comment (required)</label>
+              <textarea name="comment" placeholder="Explain why you are overriding the AI decision..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+              Save Override
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 </body>

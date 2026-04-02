@@ -30,7 +30,6 @@ body {
   min-height: 100vh;
 }
 
-/* Animated grid bg */
 body::before {
   content: '';
   position: fixed;
@@ -64,10 +63,7 @@ nav {
   width: 30px; height: 30px;
   background: var(--yellow);
   border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
   animation: logoPulse 3s ease-in-out infinite;
 }
 
@@ -76,18 +72,10 @@ nav {
   50%      { box-shadow: 0 0 0 8px rgba(240,185,11,0); }
 }
 
-.brand-name {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text);
-}
+.brand-name { font-size:17px; font-weight:700; color:var(--text); }
 .brand-name span { color: var(--yellow); }
 
-.nav-divider {
-  width: 1px; height: 20px;
-  background: var(--border);
-  margin: 0 4px;
-}
+.nav-divider { width:1px; height:20px; background:var(--border); margin:0 4px; }
 
 .nav-tag {
   font-family: var(--mono);
@@ -99,23 +87,14 @@ nav {
 
 .nav-right { display: flex; align-items: center; gap: 12px; }
 
-.nav-user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--muted);
-}
+.nav-user { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); }
 
 .user-avatar {
   width: 28px; height: 28px;
   background: var(--bg3);
   border: 1px solid var(--border);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
 }
 
 /* Bell */
@@ -127,17 +106,13 @@ nav {
   border-radius: 6px;
   width: 34px; height: 34px;
   cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   transition: border-color 0.2s;
   position: relative;
-  font-family: var(--sans);
-  color: var(--text);
+  color: var(--muted);
 }
 
-.bell-btn:hover { border-color: var(--yellow); }
+.bell-btn:hover { border-color: var(--yellow); color: var(--yellow); }
 
 .bell-count {
   position: absolute;
@@ -148,9 +123,7 @@ nav {
   font-weight: 700;
   width: 16px; height: 16px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-family: var(--mono);
 }
 
@@ -169,8 +142,8 @@ nav {
 }
 
 @keyframes dropIn {
-  from { opacity:0; transform: translateY(-8px); }
-  to   { opacity:1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(-8px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
 .notif-dropdown.open { display: block; }
@@ -178,61 +151,42 @@ nav {
 .notif-header {
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
+  display: flex; justify-content:space-between; align-items:center;
+  font-size: 13px; font-weight: 600;
 }
 
 .mark-read-btn {
-  background: transparent;
-  border: none;
-  color: var(--yellow);
-  font-size: 11px;
-  cursor: pointer;
-  font-family: var(--sans);
-  padding: 0;
+  background: transparent; border: none;
+  color: var(--yellow); font-size: 11px;
+  cursor: pointer; font-family: var(--sans); padding: 0;
 }
 
 .notif-item {
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
-  transition: background 0.2s;
+  font-size: 12px; color: var(--muted);
+  line-height: 1.5; transition: background 0.2s;
 }
 
 .notif-item:hover { background: var(--bg3); }
 .notif-item:last-child { border-bottom: none; }
 
 .notif-time {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--border);
-  margin-top: 4px;
+  font-family: var(--mono); font-size: 10px;
+  color: var(--border); margin-top: 4px;
 }
 
 .notif-empty {
-  padding: 28px 16px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
+  padding: 28px 16px; text-align: center;
+  color: var(--muted); font-size: 12px;
 }
 
 .btn-logout {
-  padding: 7px 14px;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--muted);
-  font-size: 12px;
-  text-decoration: none;
-  font-family: var(--sans);
-  transition: all 0.2s;
+  padding: 7px 14px; background: transparent;
+  border: 1px solid var(--border); border-radius: 6px;
+  color: var(--muted); font-size: 12px;
+  text-decoration: none; font-family: var(--sans); transition: all 0.2s;
 }
-
 .btn-logout:hover { border-color: var(--red); color: var(--red); }
 
 /* LAYOUT */
@@ -244,43 +198,27 @@ nav {
   z-index: 1;
 }
 
-/* Page header */
 .page-header {
   margin-bottom: 28px;
   animation: fadeInDown 0.5s ease both;
 }
 
 @keyframes fadeInDown {
-  from { opacity:0; transform: translateY(-12px); }
-  to   { opacity:1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(-12px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-.page-header-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
-}
+.page-header-top { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
 
 .page-tag {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--yellow);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  background: rgba(240,185,11,0.08);
-  border: 1px solid rgba(240,185,11,0.15);
-  border-radius: 4px;
+  font-family: var(--mono); font-size: 10px; color: var(--yellow);
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 8px; background: rgba(240,185,11,0.08);
+  border: 1px solid rgba(240,185,11,0.15); border-radius: 4px;
 }
 
-.page-header h1 {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.page-header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.page-header h1 { font-size:26px; font-weight:700; letter-spacing:-0.5px; }
+.page-header p  { font-size:13px; color:var(--muted); margin-top:4px; }
 
 /* Cards */
 .card {
@@ -293,8 +231,8 @@ nav {
 }
 
 @keyframes fadeInUp {
-  from { opacity:0; transform: translateY(16px); }
-  to   { opacity:1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
 .card:nth-child(2) { animation-delay: 0.1s; }
@@ -303,9 +241,7 @@ nav {
 .card-header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
 }
 
 .card-header-icon {
@@ -313,17 +249,10 @@ nav {
   background: rgba(240,185,11,0.1);
   border: 1px solid rgba(240,185,11,0.2);
   border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
 }
 
-.card-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-}
+.card-title { font-size:14px; font-weight:600; color:var(--text); }
 
 .card-body { padding: 20px; }
 
@@ -343,69 +272,51 @@ nav {
 
 .upload-zone::before {
   content: '';
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background: radial-gradient(circle at center, rgba(240,185,11,0.04) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s;
+  opacity: 0; transition: opacity 0.3s;
 }
 
-.upload-zone:hover {
-  border-color: var(--yellow);
-  background: rgba(240,185,11,0.03);
-}
-
+.upload-zone:hover { border-color: var(--yellow); background: rgba(240,185,11,0.03); }
 .upload-zone:hover::before { opacity: 1; }
 
-.upload-zone.has-file {
-  border-color: var(--green);
-  background: rgba(14,203,129,0.04);
+.upload-zone.has-file { border-color: var(--green); background: rgba(14,203,129,0.04); }
+
+.upload-icon {
+  width: 48px; height: 48px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+  transition: border-color 0.3s;
 }
 
-.upload-icon { font-size: 36px; margin-bottom: 10px; }
+.upload-zone:hover .upload-icon { border-color: var(--yellow); }
+.upload-zone.has-file .upload-icon { border-color: var(--green); }
 
-.upload-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-
-.upload-sub { font-size: 12px; color: var(--muted); }
+.upload-title { font-size:14px; font-weight:500; color:var(--text); margin-bottom:4px; }
+.upload-sub   { font-size:12px; color:var(--muted); }
 
 input[type="file"] { display: none; }
 
-/* Fields */
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
 .field { margin-bottom: 16px; }
 
 .field label {
   display: block;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 7px;
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 7px;
 }
 
 .field input[type="date"],
 .field textarea {
-  width: 100%;
-  padding: 11px 14px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-  font-family: var(--sans);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%; padding: 11px 14px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text);
+  font-size: 13px; font-family: var(--sans);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .field input[type="date"]:focus,
@@ -416,23 +327,13 @@ input[type="file"] { display: none; }
 
 .field textarea { height: 90px; resize: none; }
 
-/* Submit button */
 .btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: var(--yellow);
-  color: var(--bg);
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 700;
-  font-family: var(--sans);
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  width: 100%; padding: 14px;
+  background: var(--yellow); color: var(--bg);
+  border: none; border-radius: 6px;
+  font-size: 15px; font-weight: 700; font-family: var(--sans);
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
   letter-spacing: 0.3px;
 }
 
@@ -443,61 +344,33 @@ input[type="file"] { display: none; }
 }
 
 /* Loading */
-#loading {
-  display: none;
-  padding: 28px;
-  text-align: center;
-}
+#loading { display: none; padding: 28px; text-align: center; }
 
 .pipeline-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: flex; flex-direction: column; gap: 10px;
   margin-top: 20px;
-  max-width: 280px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 280px; margin-left: auto; margin-right: auto;
 }
 
 .p-step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  color: var(--muted);
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.3s;
-  border: 1px solid transparent;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: var(--muted);
+  padding: 8px 12px; border-radius: 6px;
+  transition: all 0.3s; border: 1px solid transparent;
 }
 
-.p-step.active {
-  color: var(--yellow);
-  background: rgba(240,185,11,0.06);
-  border-color: rgba(240,185,11,0.15);
-}
-
-.p-step.done {
-  color: var(--green);
-  background: rgba(14,203,129,0.06);
-  border-color: rgba(14,203,129,0.15);
-}
+.p-step.active { color: var(--yellow); background: rgba(240,185,11,0.06); border-color: rgba(240,185,11,0.15); }
+.p-step.done   { color: var(--green);  background: rgba(14,203,129,0.06); border-color: rgba(14,203,129,0.15); }
 
 .p-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--border);
-  flex-shrink: 0;
-  transition: background 0.3s;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); flex-shrink: 0; transition: background 0.3s;
 }
 
 .p-step.active .p-dot { background: var(--yellow); animation: blink 1s infinite; }
-.p-step.done  .p-dot  { background: var(--green); }
+.p-step.done   .p-dot { background: var(--green); }
 
-@keyframes blink {
-  0%,100% { opacity:1; }
-  50%      { opacity:0.3; }
-}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
 .spinner {
   width: 40px; height: 40px;
@@ -512,75 +385,51 @@ input[type="file"] { display: none; }
 /* Result */
 #result { display: none; margin-top: 16px; }
 
-.result-card {
-  border-radius: 8px;
-  border: 1px solid;
-  overflow: hidden;
-}
-
+.result-card { border-radius: 8px; border: 1px solid; overflow: hidden; }
 .result-card.Approved { border-color: rgba(14,203,129,0.3); }
 .result-card.Flagged  { border-color: rgba(247,166,0,0.3); }
 .result-card.Rejected { border-color: rgba(246,70,93,0.3); }
 
 .result-banner {
   padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
 }
 
 .result-card.Approved .result-banner { background: rgba(14,203,129,0.08); }
 .result-card.Flagged  .result-banner { background: rgba(247,166,0,0.08); }
 .result-card.Rejected .result-banner { background: rgba(246,70,93,0.08); }
 
-.result-icon { font-size: 24px; }
-
-.result-title {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
+.result-status-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
 }
 
+.result-card.Approved .result-status-icon { background: rgba(14,203,129,0.15); }
+.result-card.Flagged  .result-status-icon { background: rgba(247,166,0,0.15); }
+.result-card.Rejected .result-status-icon { background: rgba(246,70,93,0.15); }
+
+.result-title { font-size:18px; font-weight:700; letter-spacing:-0.3px; }
 .result-card.Approved .result-title { color: var(--green); }
 .result-card.Flagged  .result-title { color: var(--orange); }
 .result-card.Rejected .result-title { color: var(--red); }
 
 .result-body { padding: 18px 20px; }
 
-.result-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.result-item {}
+.result-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
 
 .result-item label {
-  display: block;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 3px;
+  display: block; font-family: var(--mono); font-size: 10px;
+  color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px;
 }
 
-.result-item p {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-}
+.result-item p { font-size:14px; font-weight:500; color:var(--text); }
 
 .result-reason {
-  padding: 12px 14px;
-  background: var(--bg3);
-  border-radius: 6px;
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 14px;
-  border-left: 2px solid var(--border);
+  padding: 12px 14px; background: var(--bg3);
+  border-radius: 6px; font-size: 12px; color: var(--muted);
+  line-height: 1.6; margin-bottom: 14px; border-left: 2px solid var(--border);
 }
 
 .result-reason strong { color: var(--text); }
@@ -588,44 +437,24 @@ input[type="file"] { display: none; }
 .risk-section { margin-bottom: 14px; }
 
 .risk-label {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 6px;
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 6px;
 }
 
-.risk-bar {
-  height: 6px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-}
+.risk-bar { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
 
-.risk-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
-}
-
+.risk-fill { height: 100%; border-radius: 999px; transition: width 1.5s cubic-bezier(0.4,0,0.2,1); }
 .risk-low    { background: var(--green); }
 .risk-medium { background: var(--orange); }
 .risk-high   { background: var(--red); }
 
 .btn-another {
-  width: 100%;
-  padding: 11px;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--muted);
-  font-size: 13px;
-  font-family: var(--sans);
-  cursor: pointer;
-  transition: all 0.2s;
+  width: 100%; padding: 11px; background: transparent;
+  border: 1px solid var(--border); border-radius: 6px;
+  color: var(--muted); font-size: 13px; font-family: var(--sans);
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
-
 .btn-another:hover { border-color: var(--yellow); color: var(--yellow); }
 
 /* Past claims table */
@@ -634,48 +463,31 @@ input[type="file"] { display: none; }
 table { width: 100%; border-collapse: collapse; }
 
 th {
-  padding: 10px 16px;
-  text-align: left;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg3);
+  padding: 10px 16px; text-align: left;
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+  letter-spacing: 1px; text-transform: uppercase;
+  border-bottom: 1px solid var(--border); background: var(--bg3);
 }
 
 td {
-  padding: 13px 16px;
-  font-size: 13px;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
+  padding: 13px 16px; font-size: 13px;
+  border-bottom: 1px solid var(--border); transition: background 0.15s;
 }
 
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: rgba(255,255,255,0.02); }
 
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  font-family: var(--mono);
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; font-family: var(--mono);
 }
 
-.badge.Approved { background: rgba(14,203,129,0.12); color: var(--green); }
-.badge.Flagged  { background: rgba(247,166,0,0.12);  color: var(--orange); }
-.badge.Rejected { background: rgba(246,70,93,0.12);  color: var(--red); }
+.badge::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; }
 
-.badge::before {
-  content: '';
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-}
+.badge-approved { background: rgba(14,203,129,0.12); color: var(--green); }
+.badge-flagged  { background: rgba(247,166,0,0.12);  color: var(--orange); }
+.badge-rejected { background: rgba(246,70,93,0.12);  color: var(--red); }
 
 .risk-text { font-family: var(--mono); font-size: 12px; }
 .risk-text.high   { color: var(--red); }
@@ -683,22 +495,12 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .risk-text.low    { color: var(--green); }
 
 .empty {
-  text-align: center;
-  padding: 60px;
-  color: var(--muted);
-  font-size: 13px;
+  text-align: center; padding: 60px;
+  color: var(--muted); font-size: 13px;
 }
 
-/* Popup notification */
-@keyframes slideIn {
-  from { transform: translateX(120%); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-
-@keyframes slideOut {
-  from { transform: translateX(0);    opacity: 1; }
-  to   { transform: translateX(120%); opacity: 0; }
-}
+@keyframes slideIn  { from{transform:translateX(120%);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes slideOut { from{transform:translateX(0);opacity:1} to{transform:translateX(120%);opacity:0} }
 
 @media (max-width: 600px) {
   nav { padding: 0 16px; }
@@ -717,20 +519,35 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 
 <nav>
   <div class="nav-left">
-    <div class="brand-logo">💼</div>
+    <div class="brand-logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0e11" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+        <line x1="12" y1="12" x2="12" y2="16"/>
+        <line x1="10" y1="14" x2="14" y2="14"/>
+      </svg>
+    </div>
     <span class="brand-name">Expense<span>AI</span></span>
     <div class="nav-divider"></div>
     <span class="nav-tag">Employee Portal</span>
   </div>
   <div class="nav-right">
     <div class="nav-user">
-      <div class="user-avatar">👤</div>
+      <div class="user-avatar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
       <span style="font-size:13px; color:var(--text)">{{ current_user.name }}</span>
     </div>
 
     <div class="bell-wrap" id="bellWrap">
       <button class="bell-btn" onclick="toggleNotifications()" id="bellBtn">
-        🔔
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
         <span class="bell-count" id="bellCount" style="display:none">0</span>
       </button>
       <div class="notif-dropdown" id="notifDropdown">
@@ -761,13 +578,22 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   <!-- Upload Card -->
   <div class="card">
     <div class="card-header">
-      <div class="card-header-icon">📎</div>
-      <span class="card-title">Receipt Upload & Details</span>
+      <div class="card-header-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+        </svg>
+      </div>
+      <span class="card-title">Receipt Upload &amp; Details</span>
     </div>
     <div class="card-body">
 
       <div class="upload-zone" id="uploadZone" onclick="document.getElementById('receipt').click()">
-        <div class="upload-icon" id="uploadIcon">📄</div>
+        <div class="upload-icon" id="uploadIcon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round" id="uploadSvg">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
         <div class="upload-title" id="uploadTitle">Drop receipt here or click to browse</div>
         <div class="upload-sub">Supports JPG, PNG and PDF · Max 10MB</div>
       </div>
@@ -786,7 +612,10 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       </div>
 
       <button class="btn-submit" onclick="submitClaim()">
-        <span>⚡</span> Run AI Audit Pipeline
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        Run AI Audit Pipeline
       </button>
 
       <div id="loading">
@@ -807,7 +636,12 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   <!-- Past Claims -->
   <div class="card">
     <div class="card-header">
-      <div class="card-header-icon">📋</div>
+      <div class="card-header-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </div>
       <span class="card-title">Your Claim History</span>
     </div>
 
@@ -831,7 +665,11 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <td style="font-family:var(--mono); color:var(--yellow)">{{ claim.amount or '—' }}</td>
           <td style="font-family:var(--mono); font-size:12px; color:var(--muted)">{{ claim.date or '—' }}</td>
           <td style="color:var(--muted); font-size:12px">{{ claim.category or '—' }}</td>
-          <td><span class="badge {{ claim.final_status }}">{{ claim.final_status }}</span></td>
+          <td>
+            {% if claim.final_status == 'Approved' %}<span class="badge badge-approved">Approved</span>
+            {% elif claim.final_status == 'Flagged' %}<span class="badge badge-flagged">Flagged</span>
+            {% else %}<span class="badge badge-rejected">Rejected</span>{% endif %}
+          </td>
           <td>
             <span class="risk-text
               {% if claim.risk_score >= 70 %}high
@@ -859,7 +697,7 @@ function handleFileSelect(input) {
   const title = document.getElementById('uploadTitle');
   if (input.files[0]) {
     zone.classList.add('has-file');
-    icon.textContent  = '✅';
+    icon.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
     title.textContent = input.files[0].name;
   }
 }
@@ -876,6 +714,30 @@ function animateSteps() {
       }
     }, delays[i]);
   });
+}
+async function refreshClaimsTable() {
+  const res  = await fetch('/api/claims/mine');
+  const data = await res.json();
+
+  const tbody = document.querySelector('table tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = data.map(c => `
+    <tr>
+      <td style="font-weight:500">${c.merchant || '—'}</td>
+      <td style="font-family:var(--mono); color:var(--yellow)">${c.amount || '—'}</td>
+      <td style="font-family:var(--mono); font-size:12px; color:var(--muted)">${c.date || '—'}</td>
+      <td style="color:var(--muted); font-size:12px">${c.category || '—'}</td>
+      <td>${badgeHTML(c.final_status)}</td>
+      <td><span class="risk-text ${c.risk_level}">${c.risk_score}/100</span></td>
+    </tr>
+  `).join('');
+}
+
+function badgeHTML(status) {
+  const cls = status === 'Approved' ? 'badge-approved'
+            : status === 'Flagged'  ? 'badge-flagged' : 'badge-rejected';
+  return `<span class="badge ${cls}">${status}</span>`;
 }
 
 async function submitClaim() {
@@ -908,12 +770,17 @@ async function submitClaim() {
     resultDiv.innerHTML = `
       <div class="result-card Rejected">
         <div class="result-banner">
-          <div class="result-icon">📷</div>
+          <div class="result-status-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
           <div class="result-title">Receipt Unreadable</div>
         </div>
         <div class="result-body">
           <p style="color:var(--muted); font-size:13px; margin-bottom:14px;">${claim.message}</p>
-          <button class="btn-another" onclick="location.reload()">Try Again</button>
+          <button class="btn-another" onclick="location.reload()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.07"/></svg>
+            Try Again
+          </button>
         </div>
       </div>`;
     return;
@@ -922,15 +789,18 @@ async function submitClaim() {
   const riskClass = claim.risk_score >= 70 ? 'risk-high'
                   : claim.risk_score >= 40 ? 'risk-medium' : 'risk-low';
 
-  const icon = claim.status === 'Approved' ? '✅'
-             : claim.status === 'Flagged'  ? '⚠️' : '❌';
+  const statusIcon = claim.status === 'Approved'
+    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`
+    : claim.status === 'Flagged'
+    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`
+    : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
 
   const resultDiv = document.getElementById('result');
   resultDiv.style.display = 'block';
   resultDiv.innerHTML = `
     <div class="result-card ${claim.status}">
       <div class="result-banner">
-        <div class="result-icon">${icon}</div>
+        <div class="result-status-icon">${statusIcon}</div>
         <div>
           <div class="result-title">${claim.status}</div>
           <div style="font-size:11px; color:var(--muted); font-family:var(--mono); margin-top:2px;">
@@ -942,26 +812,24 @@ async function submitClaim() {
         <div class="result-grid">
           <div class="result-item">
             <label>Merchant</label>
-            <p>${claim.merchant || '⚠ Not detected'}</p>
+            <p>${claim.merchant || 'Not detected'}</p>
           </div>
           <div class="result-item">
             <label>Amount</label>
-            <p style="color:var(--yellow); font-family:var(--mono)">${claim.amount || '⚠ Not detected'}</p>
+            <p style="color:var(--yellow); font-family:var(--mono)">${claim.amount || 'Not detected'}</p>
           </div>
           <div class="result-item">
             <label>Date</label>
-            <p style="font-family:var(--mono); font-size:12px">${claim.date || '⚠ Not detected'}</p>
+            <p style="font-family:var(--mono); font-size:12px">${claim.date || 'Not detected'}</p>
           </div>
           <div class="result-item">
             <label>Category</label>
             <p>${claim.category}</p>
           </div>
         </div>
-
         <div class="result-reason">
           <strong>Audit Reason:</strong> ${claim.reason}
         </div>
-
         <div class="risk-section">
           <div class="risk-label">
             <span>FRAUD RISK SCORE</span>
@@ -971,8 +839,10 @@ async function submitClaim() {
             <div class="risk-fill ${riskClass}" style="width:0%" id="riskFill"></div>
           </div>
         </div>
-
-        <button class="btn-another" onclick="location.reload()">🔄 Submit Another Receipt</button>
+        <button class="btn-another" onclick="location.reload()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.07"/></svg>
+          Submit Another Receipt
+        </button>
       </div>
     </div>`;
 
@@ -986,27 +856,20 @@ async function submitClaim() {
 }
 
 function showPopup(claim) {
-  const icon  = claim.status === 'Approved' ? '✅' : claim.status === 'Flagged' ? '⚠️' : '❌';
   const color = claim.status === 'Approved' ? 'var(--green)'
               : claim.status === 'Flagged'  ? 'var(--orange)' : 'var(--red)';
 
   const popup = document.createElement('div');
   popup.style.cssText = `
     position:fixed; bottom:24px; right:24px;
-    background:var(--bg2);
-    border:1px solid ${color};
-    border-radius:10px;
-    padding:16px 20px;
-    max-width:300px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.5);
-    z-index:9999;
+    background:var(--bg2); border:1px solid ${color};
+    border-radius:10px; padding:16px 20px; max-width:300px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5); z-index:9999;
     animation:slideIn 0.4s cubic-bezier(0.4,0,0.2,1);
-    font-family:var(--sans);
-    color:var(--text);
+    font-family:var(--sans); color:var(--text);
   `;
   popup.innerHTML = `
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-      <span style="font-size:18px">${icon}</span>
       <strong style="color:${color};font-size:13px;">Claim ${claim.status}</strong>
     </div>
     <p style="font-size:12px;color:var(--muted);line-height:1.5;">${claim.reason}</p>
@@ -1055,7 +918,16 @@ document.addEventListener('click', (e) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadNotifications();
-  setInterval(loadNotifications, 30000);
+  // Check every 5 seconds instead of 30
+  setInterval(async () => {
+    const prevCount = parseInt(document.getElementById('bellCount').textContent) || 0;
+    await loadNotifications();
+    const newCount = parseInt(document.getElementById('bellCount').textContent) || 0;
+    // If new notification arrived, refresh the claims table too
+    if (newCount > prevCount) {
+      refreshClaimsTable();
+    }
+  }, 5000);
 });
 </script>
 </body>

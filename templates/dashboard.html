@@ -62,7 +62,6 @@ nav {
   background: var(--yellow);
   border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
   animation: logoPulse 3s ease-in-out infinite;
 }
 
@@ -128,7 +127,6 @@ nav {
 
 .page-header p { font-size:13px; color:var(--muted); }
 
-/* Stats */
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -148,7 +146,6 @@ nav {
 }
 
 .stat:hover { transform: translateY(-2px); }
-
 .stat:nth-child(1) { animation-delay: 0.05s; }
 .stat:nth-child(2) { animation-delay: 0.1s; }
 .stat:nth-child(3) { animation-delay: 0.15s; }
@@ -166,12 +163,12 @@ nav {
   height: 2px;
 }
 
-.stat.total::after   { background: var(--yellow); }
+.stat.total::after    { background: var(--yellow); }
 .stat.approved::after { background: var(--green); }
 .stat.flagged::after  { background: var(--orange); }
 .stat.rejected::after { background: var(--red); }
 
-.stat:hover.total   { border-color: rgba(240,185,11,0.3); }
+.stat:hover.total    { border-color: rgba(240,185,11,0.3); }
 .stat:hover.approved { border-color: rgba(14,203,129,0.3); }
 .stat:hover.flagged  { border-color: rgba(247,166,0,0.3); }
 .stat:hover.rejected { border-color: rgba(246,70,93,0.3); }
@@ -204,7 +201,6 @@ nav {
   margin-top: 6px;
 }
 
-/* Table card */
 .card {
   background: var(--bg2);
   border: 1px solid var(--border);
@@ -229,7 +225,6 @@ nav {
   border: 1px solid rgba(240,185,11,0.2);
   border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
 }
 
 .card-title { font-size:14px; font-weight:600; }
@@ -277,9 +272,9 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   background: currentColor;
 }
 
-.badge.Approved { background: rgba(14,203,129,0.12); color: var(--green); }
-.badge.Flagged  { background: rgba(247,166,0,0.12);  color: var(--orange); }
-.badge.Rejected { background: rgba(246,70,93,0.12);  color: var(--red); }
+.badge-approved { background: rgba(14,203,129,0.12); color: var(--green); }
+.badge-flagged  { background: rgba(247,166,0,0.12);  color: var(--orange); }
+.badge-rejected { background: rgba(246,70,93,0.12);  color: var(--red); }
 
 .risk-pill {
   display: inline-flex;
@@ -322,7 +317,14 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   font-size: 13px;
 }
 
-.empty-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-icon {
+  width: 48px; height: 48px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
 
 @media (max-width: 768px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
@@ -340,7 +342,14 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 
 <nav>
   <div class="nav-left">
-    <div class="brand-logo">💼</div>
+    <div class="brand-logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b0e11" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+        <line x1="12" y1="12" x2="12" y2="16"/>
+        <line x1="10" y1="14" x2="14" y2="14"/>
+      </svg>
+    </div>
     <span class="brand-name">Expense<span>AI</span></span>
     <div class="nav-divider"></div>
     <span class="nav-tag">Finance</span>
@@ -363,17 +372,15 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </div>
     <div class="stat approved">
       <div class="stat-label">Approved</div>
-      <div class="stat-number">{{ claims|selectattr('status','eq','Approved')|list|length }}</div>
-      <div class="stat-sub">Compliant</div>
+      <div class="stat-number">{{ claims|selectattr('final_status','eq','Approved')|list|length }}</div>      <div class="stat-sub">Compliant</div>
     </div>
     <div class="stat flagged">
       <div class="stat-label">Flagged</div>
-      <div class="stat-number">{{ claims|selectattr('status','eq','Flagged')|list|length }}</div>
-      <div class="stat-sub">Needs review</div>
+      <div class="stat-number">{{ claims|selectattr('final_status','eq','Flagged')|list|length }}</div>      <div class="stat-sub">Needs review</div>
     </div>
     <div class="stat rejected">
       <div class="stat-label">Rejected</div>
-      <div class="stat-number">{{ claims|selectattr('status','eq','Rejected')|list|length }}</div>
+      <div class="stat-number">{{ claims|selectattr('final_status','eq','Rejected')|list|length }}</div>
       <div class="stat-sub">Non-compliant</div>
     </div>
   </div>
@@ -381,7 +388,12 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   <div class="card">
     <div class="card-header">
       <div class="card-header-left">
-        <div class="card-header-icon">📋</div>
+        <div class="card-header-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
         <div>
           <div class="card-title">All Claims</div>
           <div class="card-sub">Sorted by fraud risk · highest first</div>
@@ -411,7 +423,15 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <td style="color:var(--muted)">{{ claim.merchant or '—' }}</td>
           <td style="font-family:var(--mono); color:var(--yellow); font-weight:600">{{ claim.amount or '—' }}</td>
           <td style="font-size:12px; color:var(--muted)">{{ claim.category or '—' }}</td>
-          <td><span class="badge {{ claim.final_status }}">{{ claim.final_status }}</span></td>
+          <td>
+            {% if claim.final_status == 'Approved' %}
+              <span class="badge badge-approved">Approved</span>
+            {% elif claim.final_status == 'Flagged' %}
+              <span class="badge badge-flagged">Flagged</span>
+            {% else %}
+              <span class="badge badge-rejected">Rejected</span>
+            {% endif %}
+          </td>
           <td>
             {% if claim.risk_score >= 70 %}
               <span class="risk-pill risk-high">▲ {{ claim.risk_score }}/100</span>
@@ -428,12 +448,53 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </table>
     {% else %}
     <div class="empty">
-      <div class="empty-icon">📭</div>
+      <div class="empty-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
       No claims submitted yet.
     </div>
     {% endif %}
   </div>
 
 </div>
+<script>
+async function refreshDashboard() {
+    const res  = await fetch('/api/claims');
+    const data = await res.json();
+
+    const tbody = document.querySelector('table tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = data.map(c => `
+        <tr>
+            <td style="font-family:var(--mono); color:var(--muted); font-size:12px">${c.id}</td>
+            <td style="font-weight:500">${c.employee}</td>
+            <td style="color:var(--muted)">${c.merchant || '—'}</td>
+            <td style="font-family:var(--mono); color:var(--yellow); font-weight:600">${c.amount || '—'}</td>
+            <td style="font-size:12px; color:var(--muted)">${c.category || '—'}</td>
+            <td>${badgeHTML(c.status)}</td>
+            <td>${riskHTML(c.risk)}</td>
+            <td><a href="/claim/${c.id}" class="btn-view">Review →</a></td>
+        </tr>
+    `).join('');
+}
+
+function badgeHTML(status) {
+    const cls = status === 'Approved' ? 'badge-approved'
+              : status === 'Flagged'  ? 'badge-flagged' : 'badge-rejected';
+    return `<span class="badge ${cls}">${status}</span>`;
+}
+
+function riskHTML(score) {
+    const cls  = score >= 70 ? 'risk-high' : score >= 40 ? 'risk-medium' : 'risk-low';
+    const icon = score >= 70 ? '▲' : score >= 40 ? '●' : '▼';
+    return `<span class="risk-pill ${cls}">${icon} ${score}/100</span>`;
+}
+
+// Refresh every 5 seconds
+setInterval(refreshDashboard, 5000);
+</script>
 </body>
 </html>
