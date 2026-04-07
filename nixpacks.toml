@@ -2,4 +2,7 @@
 nixPkgs = ["tesseract"]
 
 [phases.build]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "pip install -r requirements.txt",
+  "which tesseract || echo 'tesseract not found'"
+]
