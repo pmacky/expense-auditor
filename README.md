@@ -55,6 +55,10 @@ Result saved to database + employee notified
 | Frontend | HTML, CSS, JavaScript |
 
 ---
+## 🌐 Live Demo
+
+🚀 **Try it live:**  
+https://expense-auditor-production.up.railway.app/login?next=%2F
 
 ## ⚙️ Setup Instructions
 
