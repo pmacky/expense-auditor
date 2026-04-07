@@ -1,2 +1,5 @@
 [phases.setup]
 nixPkgs = ["tesseract4"]
+
+[variables]
+TESSDATA_PREFIX = "/run/current-system/sw/share/tessdata"

@@ -11,6 +11,7 @@ import fitz
 import pytesseract
 import shutil
 tesseract_path = shutil.which('tesseract')
+
 if tesseract_path:
     pytesseract.pytesseract.tesseract_cmd = tesseract_path
 load_dotenv()
@@ -225,15 +226,15 @@ def submit_claim():
     db.session.add(claim)
     db.session.commit()
 
-    icon = '[APPROVED]' if new_status == 'Approved' else '[FLAGGED]' if new_status == 'Flagged' else '[REJECTED]'
+    # Notify employee of initial audit result
+    status = result['status']
+    icon = '[APPROVED]' if status == 'Approved' else '[FLAGGED]' if status == 'Flagged' else '[REJECTED]'
     notification = Notification(
         user_id = claim.employee_id,
-        message = f"{icon} Finance overrode your claim at {claim.merchant or 'Unknown'} ({claim.amount or '?'}) to {new_status}. Reason: {comment}"
+        message = f"{icon} Your claim at {claim.merchant or 'Unknown'} ({claim.amount or '?'}) was {status}. Reason: {result['reason']}"
     )
     db.session.add(notification)
     db.session.commit()
-    print(f"✅ Notification created for user {current_user.id}: {notification.message}")
-
     return jsonify(result)
 # ─────────────────────────────────────────
 # FINANCE ROUTES
