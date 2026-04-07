@@ -8,6 +8,21 @@ Built with Python, Flask, and Groq AI.
 
 ---
 
+## 📌 Project Title
+ExpenseAI — AI-Powered Expense Auditor
+
+---
+
+## ❗ The Problem
+Corporate expense auditing is a manual, time-consuming process where finance teams must verify receipts against complex company policies. This leads to delays, human errors, and financial leakage due to non-compliant claims slipping through.
+
+---
+
+## 💡 The Solution
+ExpenseAI automates the auditing process using a multi-agent AI pipeline. It extracts data from receipts using OCR, cross-references it with company policies, and evaluates compliance in real time. The system classifies claims as Approved, Flagged, or Rejected, generates explanations, and assigns fraud risk scores, reducing manual effort and improving accuracy.
+
+---
+
 ## 🚀 Features
 
 - **4-Agent AI Pipeline** — Four specialized AI agents work in sequence to extract, search, audit and score every claim
@@ -26,7 +41,8 @@ Built with Python, Flask, and Groq AI.
 ---
 
 ## 🤖 How the AI Pipeline Works
-```
+
+~~~text
 Receipt uploaded
       ↓
 Agent 1 (Groq/LLaMA) — Extracts structured data from receipt
@@ -38,71 +54,82 @@ Agent 3 (Groq/LLaMA) — Audits claim against policy rules
 Agent 4 (Groq/LLaMA) — Calculates fraud risk score 0-100
       ↓
 Result saved to database + employee notified
-```
+~~~
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Backend | Python, Flask |
-| Database | SQLite + SQLAlchemy |
-| Authentication | Flask-Login |
-| AI Pipeline | Groq API (LLaMA 3.3 70B) |
-| OCR | Tesseract + Pillow |
-| PDF Reading | PyMuPDF |
-| Frontend | HTML, CSS, JavaScript |
+- **Programming Languages:** Python, JavaScript, HTML, CSS  
+- **Frameworks:** Flask, SQLAlchemy, Flask-Login  
+- **Database:** SQLite  
+- **APIs / Tools:**  
+  - Groq API (LLaMA 3.3 70B)  
+  - Tesseract OCR (pytesseract)  
+  - Pillow  
+  - PyMuPDF  
 
 ---
+
 ## 🌐 Live Demo
 
 🚀 **Try it live:**  
 https://expense-auditor-production.up.railway.app/login?next=%2F
 
+---
+
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the repository
-```bash
+
+~~~bash
 git clone https://github.com/YOUR_USERNAME/expense-auditor.git
 cd expense-auditor
-```
+~~~
 
 ### 2. Create virtual environment
-```bash
+
+~~~bash
 python -m venv venv
 venv\Scripts\activate.bat   # Windows
-source venv/bin/activate     # Mac/Linux
-```
+source venv/bin/activate    # Mac/Linux
+~~~
 
 ### 3. Install dependencies
-```bash
+
+~~~bash
 python -m pip install flask flask-sqlalchemy flask-login flask-mail werkzeug anthropic groq python-dotenv pillow pytesseract PyMuPDF
-```
+~~~
 
 ### 4. Install Tesseract OCR
-Download from: https://github.com/UB-Mannheim/tesseract/wiki
 
-Then update the path in `app.py`:
-```python
+Download from:  
+https://github.com/UB-Mannheim/tesseract/wiki
+
+Update path in `app.py`:
+
+~~~python
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-```
+~~~
 
 ### 5. Set up environment variables
+
 Create a `.env` file:
-```
+
+~~~env
 ANTHROPIC_API_KEY=your_key_here
 GROQ_API_KEY=your_key_here
-```
+~~~
 
 ### 6. Add your policy PDF
+
 Place your company's expense policy PDF in the root folder named `policy.pdf`.
-A sample policy is included in the repository.
 
 ### 7. Run the app
-```bash
+
+~~~bash
 python app.py
-```
+~~~
 
 Visit `http://127.0.0.1:5000`
 
@@ -118,7 +145,8 @@ Visit `http://127.0.0.1:5000`
 ---
 
 ## 📁 Project Structure
-```
+
+~~~text
 expense-auditor/
 │
 ├── app.py          ← Main Flask server + routes
@@ -135,10 +163,9 @@ expense-auditor/
 │   └── detail.html
 │
 └── uploads/        ← Saved receipt files
-```
+~~~
 
 ---
-
 
 ## 📄 License
 
