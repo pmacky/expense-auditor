@@ -1,0 +1,10 @@
+flask
+flask-login
+flask-sqlalchemy
+werkzeug
+python-dotenv
+pymupdf
+pytesseract
+pillow
+anthropic
+gunicorn
